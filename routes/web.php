@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\PengaduanController;
+use App\Http\Controllers\PengaduanHistoryController;
 use App\Http\Controllers\AuthController;
 
 // Route untuk halaman registrasi
@@ -38,4 +40,17 @@ Route::get('/', function () {
 Route::get('/pengaduan/create', [PengaduanController::class, 'create'])->name('pengaduan.create');
 Route::post('/pengaduan', [PengaduanController::class, 'store'])->name('pengaduan.store');
 
+Route::get('/home', function () {
+    return view('home'); // Ganti 'home' dengan nama view untuk halaman home Anda
+})->name('home');
 
+Route::post('/logout', function () {
+    Auth::logout();
+    return redirect('/login'); // Arahkan ke halaman login setelah log out
+})->name('logout');
+
+Route::get('/pengaduan/history', [PengaduanHistoryController::class, 'index'])->name('pengaduan.history');
+
+Route::middleware(['auth'])->group(function () {
+Route::get('/home', [PengaduanController::class, 'index'])->name('home');
+});

@@ -38,4 +38,13 @@ class PengaduanController extends Controller
         return redirect()->route('pengaduan.create')->with('success', 'Pengaduan berhasil dikirim!');
     }
 
+    public function index()
+    {
+        // Mengambil semua layanan
+        $layanans = Layanan::all();
+        
+        // Mengembalikan view dengan data layanan
+        return view('home', compact('layanans'));
+    }
+
 }
