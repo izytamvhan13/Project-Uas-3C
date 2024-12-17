@@ -13,7 +13,7 @@ class Pengaduan extends Model
         'nama',
         'alamat',
         'layanan_id',
-        'status',
+        'deskripsi',
     ];
 
     public function layanan()

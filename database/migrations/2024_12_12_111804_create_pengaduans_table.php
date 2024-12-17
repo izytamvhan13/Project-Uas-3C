@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nama');
             $table->string('alamat');
+            $table->text('deskripsi')->nullable()->after('alamat');
             $table->foreignId('layanan_id')->constrained('layanans')->onDelete('cascade');
             $table->enum('status', ['pending', 'diterima', 'ditolak'])->default('pending');
             $table->timestamps();

@@ -35,6 +35,13 @@ class PengaduanResource extends Resource
                 ->relationship('layanan', 'kategori_layanan')
                 ->required()
                 ->label('Layanan'),
+
+            // Menambahkan kolom deskripsi di form
+            Forms\Components\TextArea::make('deskripsi')
+            ->label('Deskripsi')
+            ->nullable()
+            ->rows(3), // Mengatur tinggi TextArea
+
             Forms\Components\Select::make('status')
                 ->options([
                     'pending' => 'Pending',
@@ -53,6 +60,8 @@ class PengaduanResource extends Resource
                 Tables\Columns\TextColumn::make('nama')->label('Nama Pengadu'),
                 Tables\Columns\TextColumn::make('alamat')->label('Alamat'),
                 Tables\Columns\TextColumn::make('layanan.kategori_layanan')->label('Layanan'),
+                // Menambahkan kolom deskripsi di tabel
+            Tables\Columns\TextColumn::make('deskripsi')->label('Deskripsi')->limit(50), // Limit untuk menampilkan sebagian
                 Tables\Columns\TextColumn::make('status')->label('Status'),
                 Tables\Columns\TextColumn::make('created_at')->dateTime()->label('Dibuat Pada'),
             ])

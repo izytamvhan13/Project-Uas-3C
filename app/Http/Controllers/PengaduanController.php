@@ -25,6 +25,7 @@ class PengaduanController extends Controller
             'nama' => 'required|string|max:255',
             'alamat' => 'required|string|max:255',
             'layanan_id' => 'required|exists:layanans,id',
+            'deskripsi' => 'nullable|string', // Menambahkan validasi deskripsi
         ]);
 
         // Membuat pengaduan baru
@@ -32,6 +33,7 @@ class PengaduanController extends Controller
             'nama' => $request->nama,
             'alamat' => $request->alamat,
             'layanan_id' => $request->layanan_id,
+            'deskripsi' => $request->deskripsi, // Tambahkan deskripsi
             'status' => 'pending', // Status default
         ]);
 

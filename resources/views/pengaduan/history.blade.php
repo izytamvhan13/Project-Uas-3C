@@ -9,7 +9,10 @@
 <body>
     <div class="container">
         <h1>History Pengaduan</h1>
-        <a href="{{ route('pengaduan.create') }}" class="btn btn-primary btn-rounded"><i class="ti-out pr-2"></i>Back</a>
+        <a href="{{ route('pengaduan.create') }}" class="btn btn-primary btn-rounded">
+            <i class="ti-out pr-2"></i>Back
+        </a>
+
         @if(session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
@@ -23,6 +26,7 @@
                     <th>Nama</th>
                     <th>Alamat</th>
                     <th>Layanan</th>
+                    <th>Deskripsi</th> <!-- Tambahkan kolom Deskripsi -->
                     <th>Status</th>
                     <th>Tanggal</th>
                 </tr>
@@ -34,6 +38,7 @@
                         <td>{{ $pengaduan->nama }}</td>
                         <td>{{ $pengaduan->alamat }}</td>
                         <td>{{ $pengaduan->layanan->kategori_layanan }}</td> <!-- Asumsi ada relasi dengan model Layanan -->
+                        <td>{{ $pengaduan->deskripsi ?? '-' }}</td> <!-- Tambahkan Deskripsi -->
                         <td>{{ $pengaduan->status }}</td>
                         <td>{{ $pengaduan->created_at->format('d-m-Y H:i') }}</td>
                     </tr>

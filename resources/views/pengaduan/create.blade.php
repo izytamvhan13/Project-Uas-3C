@@ -42,6 +42,11 @@
             </div>
 
             <div class="form-group">
+                <label for="deskripsi">Deskripsi:</label>
+                <textarea class="form-control" id="deskripsi" name="deskripsi" rows="4" required></textarea>
+            </div>
+
+            <div class="form-group">
                 <label for="layanan_id">Layanan:</label>
                 <select class="form-control" id="layanan_id" name="layanan_id" required>
                     <option value="">Pilih Layanan</option>
