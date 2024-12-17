@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\PengaduanController;
 use App\Http\Controllers\PengaduanHistoryController;
+use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\AuthController;
 
 // Route untuk halaman registrasi
@@ -53,4 +54,11 @@ Route::get('/pengaduan/history', [PengaduanHistoryController::class, 'index'])->
 
 Route::middleware(['auth'])->group(function () {
 Route::get('/home', [PengaduanController::class, 'index'])->name('home');
+});
+
+Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store'); // Rute untuk menyimpan feedback
+Route::get('/feedback', [FeedbackController::class, 'index'])->name('feedback.index'); // Rute untuk menampilkan feedback
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/home', [PengaduanController::class, 'index'])->name('home'); // Pastikan ini mengarah ke PengaduanController
 });

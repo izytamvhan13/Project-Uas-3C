@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Pengaduan;
 use App\Models\Layanan;
+use App\Models\Feedback;
 use Illuminate\Http\Request;
 
 class PengaduanController extends Controller
@@ -40,11 +41,11 @@ class PengaduanController extends Controller
 
     public function index()
     {
-        // Mengambil semua layanan
-        $layanans = Layanan::all();
+        $layanans = Layanan::all(); // Ambil semua layanan
+        $feedbacks = Feedback::all(); // Ambil semua feedback dari database
         
-        // Mengembalikan view dengan data layanan
-        return view('home', compact('layanans'));
+        // Mengembalikan view dengan data layanan dan feedback
+        return view('home', compact('layanans', 'feedbacks'));
     }
 
 }
