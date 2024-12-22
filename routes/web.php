@@ -1,64 +1,44 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\PengaduanController;
 use App\Http\Controllers\PengaduanHistoryController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\AuthController;
 
-// Route untuk halaman registrasi
-Route::get('/register', function () {
-    return view('register'); // Pastikan view 'register' ada di folder resources/views
-})->name('register');
-
-// Route untuk menyimpan data registrasi
-Route::post('/register', [AuthController::class, 'register'])->name('register.post');
-
-// Route untuk halaman login
-Route::get('/login', function () {
-    return view('login'); // Pastikan view 'login' ada di folder resources/views
-})->name('login');
-
-// Route untuk memproses login
-Route::post('/login', [AuthController::class, 'login'])->name('login.post');
-
-// Route untuk halaman home, dilindungi oleh middleware auth
-Route::middleware(['auth'])->group(function () {
-    Route::get('/home', function () {
-        return view('home'); // Pastikan view 'home' ada di folder resources/views
-    })->name('home');
-
-    // Rute untuk logout
-    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-});
-
-// Route untuk root agar mengarah ke halaman registrasi
+// Route untuk root, diarahkan ke login
 Route::get('/', function () {
-    return redirect()->route('register'); // Redirect ke halaman registrasi
+    return redirect()->route('login'); // Redirect ke halaman login
 });
 
-Route::get('/pengaduan/create', [PengaduanController::class, 'create'])->name('pengaduan.create');
-Route::post('/pengaduan', [PengaduanController::class, 'store'])->name('pengaduan.store');
+// Route untuk registrasi
+Route::get('/register', function () {
+    return view('register'); // View untuk halaman registrasi
+})->middleware('guest:pengguna')->name('register');
 
-Route::get('/home', function () {
-    return view('home'); // Ganti 'home' dengan nama view untuk halaman home Anda
-})->name('home');
+Route::post('/register', [AuthController::class, 'register'])->middleware('guest:pengguna')->name('register.post');
 
-Route::post('/logout', function () {
-    Auth::logout();
-    return redirect('/login'); // Arahkan ke halaman login setelah log out
-})->name('logout');
+// Route untuk login
+Route::get('/login', function () {
+    return view('login'); // View untuk halaman login
+})->middleware('guest:pengguna')->name('login');
 
-Route::get('/pengaduan/history', [PengaduanHistoryController::class, 'index'])->name('pengaduan.history');
+Route::post('/login', [AuthController::class, 'login'])->middleware('guest:pengguna')->name('login.post');
 
-Route::middleware(['auth'])->group(function () {
-Route::get('/home', [PengaduanController::class, 'index'])->name('home');
-});
+// Middleware untuk halaman yang memerlukan autentikasi
+Route::middleware(['auth:pengguna'])->group(function () {
+    // Rute untuk home/dashboard
+    Route::get('/home', [PengaduanController::class, 'index'])->name('home');
 
-Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store'); // Rute untuk menyimpan feedback
-Route::get('/feedback', [FeedbackController::class, 'index'])->name('feedback.index'); // Rute untuk menampilkan feedback
+    // Rute logout
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/home', [PengaduanController::class, 'index'])->name('home'); // Pastikan ini mengarah ke PengaduanController
+    // Rute pengaduan
+    Route::get('/pengaduan/create', [PengaduanController::class, 'create'])->name('pengaduan.create');
+    Route::post('/pengaduan', [PengaduanController::class, 'store'])->name('pengaduan.store');
+    Route::get('/pengaduan/history', [PengaduanHistoryController::class, 'index'])->name('pengaduan.history');
+
+    // Rute feedback
+    Route::get('/feedback', [FeedbackController::class, 'index'])->name('feedback.index');
+    Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
 });

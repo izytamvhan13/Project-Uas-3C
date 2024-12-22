@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Foundation\Auth\User as Authenticatable; 
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class Pengguna extends Authenticatable // Pastikan ini mengextends Authenticatable
+class Pengguna extends Authenticatable
 {
     use Notifiable;
 
@@ -21,9 +21,13 @@ class Pengguna extends Authenticatable // Pastikan ini mengextends Authenticatab
         'remember_token',
     ];
 
-    // Jika Anda ingin menggunakan hashing untuk password
+    /**
+     * Setter untuk password, otomatis melakukan hashing.
+     */
     public function setPasswordAttribute($value)
     {
-        $this->attributes['password'] = bcrypt($value); // Meng-hash password sebelum disimpan
+        if (!empty($value)) {
+            $this->attributes['password'] = bcrypt($value); // Meng-hash password sebelum disimpan
+        }
     }
 }

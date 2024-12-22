@@ -45,7 +45,7 @@ class PengaduanController extends Controller
     {
         $layanans = Layanan::all(); // Ambil semua layanan
         $feedbacks = Feedback::all(); // Ambil semua feedback dari database
-        
+
         // Mengembalikan view dengan data layanan dan feedback
         return view('home', compact('layanans', 'feedbacks'));
     }
